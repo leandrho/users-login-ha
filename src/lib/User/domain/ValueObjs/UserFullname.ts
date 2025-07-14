@@ -5,18 +5,18 @@ export class UserFullname{
     private readonly value: string;
 
     constructor(fullname: string){
-        if(!UserFullname.isValid(fullname))
+        const fname = fullname.trim();
+        if(!UserFullname.isValid(fname))
             throw new UserInvalidPropertyError('Domain error: Invalid fullname', 'UserFullname', fullname);
-        this.value = fullname;
+        this.value = fname;
     }
 
     public static isValid(fullname: string){
-        const fname = fullname.trim();
-        if(!fname) 
+        if(!fullname) 
             return false;
 
         const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s'-]+$/;
-        return regexNombre.test(fname)  && fname.length <= 72;
+        return regexNombre.test(fullname)  && fullname.length <= 72;
     }
 
 }

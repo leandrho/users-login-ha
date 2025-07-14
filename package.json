@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node dist/main.js",
     "build": "npx tsc ./src/main.js --outDir ./dist/",
-    "dev": "npx tsnode ./src/main.ts"
+    "dev": "npx ts-node ./src/main.ts"
   },
   "keywords": [],
   "author": "",

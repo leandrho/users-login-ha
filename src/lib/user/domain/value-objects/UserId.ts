@@ -1,6 +1,6 @@
 
 import { validate as uuidValidate } from 'uuid';
-import { UserInvalidPropertyError } from '../Errors/UserInvalidPropertyError';
+import { UserInvalidPropertyError } from '../errors/UserInvalidPropertyError';
 
 export class UserId{
     

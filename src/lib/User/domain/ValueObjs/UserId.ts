@@ -6,7 +6,7 @@ export class UserId{
     
     private value: string;
     
-    constructor(readonly id: string){
+    constructor(id: string){
         if(!UserId.isValid(id))
             throw new UserInvalidPropertyError('Domain error: Invalid user id', 'UserId', id);
         

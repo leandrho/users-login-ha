@@ -2,7 +2,7 @@ import { UserInvalidPropertyError } from "../Errors/UserInvalidPropertyError";
 
 export class UserFullname{
 
-    private readonly value: string;
+    public readonly value: string;
 
     constructor(fullname: string){
         const fname = fullname.trim();

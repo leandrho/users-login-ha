@@ -1,19 +1,19 @@
 
 import { validate as uuidValidate } from 'uuid';
 import { UserInvalidPropertyError } from '../errors/UserInvalidPropertyError';
+import { StringValueObject } from 'src/lib/shared/domain/value-objects/StringValueObject';
+import { ValidationResult } from 'src/lib/shared/domain/value-objects/types';
 
-export class UserId{
-    
-    private value: string;
+export class UserId extends StringValueObject{
+
     
     constructor(id: string){
-        if(!UserId.isValid(id))
-            throw new UserInvalidPropertyError('Domain error: Invalid user id', 'UserId', id);
-        
-        this.value = id;
+        super(id);
     }
 
-    public static isValid(id: string){
-        return uuidValidate(id);
+    public isValid(value: string): ValidationResult {
+        return uuidValidate(value)?
+                {isValid: true}:
+                {isValid: false, error: {errorMsg: 'Domain error: Invalid id', propName: 'UserId', value: value}}
     }
 }

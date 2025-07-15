@@ -1,15 +1,18 @@
 import { UserInvalidPropertyError } from "../../../user/domain/errors/UserInvalidPropertyError";
+import { ValidationResult } from './types';
 import { ValueObject } from './ValueObject';
 
 export abstract class StringValueObject implements ValueObject<string>{
 
     private readonly _value: string;
 
-    constructor(value: string, propName: string, errorMsg: string){
+    constructor( value: string ){
         
         const v: string = value.trim();
-        if(!this.isValid(v)){
-            throw new UserInvalidPropertyError(errorMsg, propName, v)
+        const validationResult: ValidationResult = this.isValid(v);
+
+        if(!validationResult.isValid && validationResult.error){
+            throw new UserInvalidPropertyError(validationResult.error.errorMsg, validationResult.error.propName, validationResult.error.value)
         }
         this._value = v;
     }
@@ -18,5 +21,5 @@ export abstract class StringValueObject implements ValueObject<string>{
         return this._value;
     }    
 
-    public abstract isValid(value: string): boolean;//ABSTRACT METHOD
+    public abstract isValid(value: string): ValidationResult;//ABSTRACT METHOD
 }

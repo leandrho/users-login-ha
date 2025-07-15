@@ -1,6 +1,7 @@
 import { UserInvalidPropertyError } from "../../../user/domain/errors/UserInvalidPropertyError";
+import { ValueObject } from './ValueObject';
 
-export abstract class StringValueObject {
+export abstract class StringValueObject implements ValueObject<string>{
 
     private readonly _value: string;
 

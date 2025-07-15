@@ -2,6 +2,8 @@ import { StringValueObject } from "src/lib/shared/domain/value-objects/StringVal
 import { UserInvalidPropertyError } from "../errors/UserInvalidPropertyError";
 
 export class UserFullname extends StringValueObject{
+    
+    private static readonly regexNombre: RegExp = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s'-]+$/;
 
     constructor(fullname: string){
         super(fullname,'Domain error: Invalid fullname', 'UserFullname');
@@ -11,8 +13,7 @@ export class UserFullname extends StringValueObject{
         if(!value) 
             return false;
 
-        const regexNombre = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s'-]+$/;
-        return regexNombre.test(value)  && value.length <= 72;
+        return UserFullname.regexNombre.test(value)  && value.length <= 72;
     }
 
 }

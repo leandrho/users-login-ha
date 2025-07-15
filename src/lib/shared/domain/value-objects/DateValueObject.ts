@@ -5,7 +5,7 @@ import { ValidationResult } from "./types";
 export abstract class DateValueObject implements ValueObject<Date>{
     private readonly _value: Date;
 
-    constructor(value: Date, propName: string, errorMsg: string){
+    constructor(value: Date){
 
         const validation: ValidationResult = this.isValid(value);
         if(!validation.isValid && validation.error){

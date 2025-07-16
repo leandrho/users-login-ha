@@ -1,5 +1,6 @@
+import { DomainRuleViolationError } from "./DomainRuleViolationError";
 
-export class UserInvalidPropertyError extends Error{
+export class UserInvalidPropertyError extends DomainRuleViolationError{
     public readonly propName: string;
     public readonly propValue: any;
 

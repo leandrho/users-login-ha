@@ -7,15 +7,37 @@ export class UserQueryService{
 
     constructor( private readonly userRepository: IUserRepository ){}
 
-    public async findById(id: string): Promise<User | null>{
-        return await this.userRepository.findById(new UserId(id));
+    public async findById(id: string): Promise<UserDTO | null>{
+        const user: User | null = await this.userRepository.findById(new UserId(id));
+        if(!user)
+            return null;
+        return UserQueryService.toUserDTO(user)
     }
     
-    public async findByMail(email: string): Promise<User | null>{
-        return await this.userRepository.findByEmail(new UserEmail(email));
+    public async findByMail(email: string): Promise<UserDTO | null>{
+        const user: User | null = await this.userRepository.findByEmail(new UserEmail(email));
+        if(!user)
+            return null;
+        return UserQueryService.toUserDTO(user);
     }
 
-    public async findAll(): Promise<User[]>{
-        return await this.userRepository.findAll();
+    public async findAll(): Promise<UserDTO[]>{
+        const users: User[] = await this.userRepository.findAll();
+        // const ret: UserDTO[] = [];
+        // for(const user of users)
+        //     ret.push(UserQueryService.toUserDTO(user));
+        return users.map(user => UserQueryService.toUserDTO(user));
+    }
+
+    private static toUserDTO(user: User): UserDTO{
+        return {
+            id: user.id.value(),
+            fullName: user.fullName.value(),
+            email: user.email.value(),
+            role: user.role.value(),
+            createdAt: user.createdAt.value(),
+            status: user.status.value(),
+            lastLogin: user.lastLogin ? user.lastLogin.value() : undefined,
+        }
     }
 }

@@ -7,12 +7,13 @@ import { UserDuplicatedEmailError } from '../../domain/errors/UserEmailDuplicate
 import { UserInvalidPropertyError } from '../../domain/errors/UserInvalidPropertyError';
 import { UserInvalidPasswordError } from '../../domain/errors/UserInvalidPasswordError';
 
-import { createUserSchema, updateProfileSchema, userIdSchema, userUpdatePasswordSchema } from './user-schemas';
+import { createUserSchema, updateProfileSchema, userEmailSchema, userIdSchema, userUpdatePasswordSchema } from './user-schemas';
 import { UserUpdatedProfileOutDTO } from '../../application/dtos/UserUpdatedProfileOutDTO';
 import { UpdateUserProps } from '../../domain/types/UpdateUserProps';
 import { UserNotFoundError } from '../../domain/errors/UserNotFoundError';
 import { UserUpdatePasswordInDTO } from '../../application/dtos/UserUpdatePasswordInDTO';
 import { UserInvalidOldPasswordError } from '../../domain/errors/UserInvalidOldPasswordError';
+import { UserDTO } from '../../application/dtos/UserDTO';
 
 
 
@@ -39,8 +40,10 @@ export class UserController{
                 res.status(400).json({message: error.message, property: error.propName});
             else if(error instanceof UserInvalidPasswordError)
                 res.status(400).json({message: error.message});
-            else
+            else {
                 res.status(500).json( {message: 'Internal server error'});
+                console.error("Internal Server Error:", error); // Log the error for debugging
+            }
         }
     }
     
@@ -65,8 +68,10 @@ export class UserController{
                 res.status(404).json({message: error.message});
             else if(error instanceof UserInvalidPropertyError)
                 res.status(400).json({message: error.message, property: error.propName});
-            else
-                res.status(500).json({message: 'Internal server error'});
+            else{
+                res.status(500).json( {message: 'Internal server error'});
+                console.error("Internal Server Error:", error); // Log the error for debugging
+            }
         }
     }
 
@@ -99,11 +104,67 @@ export class UserController{
                     res.status(400).json({message: error.message})
                 else if(error instanceof UserInvalidOldPasswordError)
                     res.status(400).json({message: error.message})
-                else
-                    res.status(500).json({message: 'Internal server error'});
+                else {
+                    res.status(500).json( {message: 'Internal server error'});
+                    console.error("Internal Server Error:", error); // Log the error for debugging
+                }
             }
     }
 
+    public async findById(req: Request, res: Response): Promise<void>{
+        try {
+            const idValidation = userIdSchema.safeParse(req.params.id);
+            if(!idValidation.success){
+                res.status(400).json({message: 'Invalid id parameter', error: idValidation.error.message});
+                return;
+            }
+            const user: UserDTO | null = await this.userService.findById(idValidation.data);
+            if(!user)
+                res.status(404).json({message: 'User not found'});
+            
+            res.status(200).json(user);
 
+        } catch (error) {
+            if(error instanceof UserInvalidPropertyError)
+                res.status(400).json({message: error.message, property: error.propName});
+            else {
+                res.status(500).json( {message: 'Internal server error'});
+                console.error("Internal Server Error:", error); // Log the error for debugging
+            }
+        }
+    }
+
+    public async findByEmail(req: Request, res: Response): Promise<void>{
+        try {
+            const emailValidation = userEmailSchema.safeParse(req.query.email);
+            if(!emailValidation.success){
+                res.status(400).json({message: 'Invalid email query parameter', error: emailValidation.error.message});
+                return;
+            }
+            const user: UserDTO | null = await this.userService.findByEmail(emailValidation.data);
+            if(!user)
+                res.status(404).json({message: 'User not found'});
+            
+            res.status(200).json(user);
+
+        } catch (error) {
+            if(error instanceof UserInvalidPropertyError)
+                res.status(400).json({message: error.message, property: error.propName});
+            else {
+                res.status(500).json( {message: 'Internal server error'});
+                console.error("Internal Server Error:", error); // Log the error for debugging
+            }
+        }
+    }
+
+    public async findAll(req: Request, res: Response): Promise<void>{
+        try {
+            const users: UserDTO[] = await this.userService.findAll();
+            res.status(200).json(users);
+        } catch (error) {
+            res.status(500).json({message: 'Internal server error'});
+            console.error("Internal Server Error:", error); // Log the error for debugging
+        }
+    }
 
 }

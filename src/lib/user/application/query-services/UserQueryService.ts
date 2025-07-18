@@ -14,7 +14,7 @@ export class UserQueryService{
         return UserQueryService.toUserDTO(user)
     }
     
-    public async findByMail(email: string): Promise<UserDTO | null>{
+    public async findByEMail(email: string): Promise<UserDTO | null>{
         const user: User | null = await this.userRepository.findByEmail(new UserEmail(email));
         if(!user)
             return null;

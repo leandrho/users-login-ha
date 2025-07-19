@@ -1,9 +1,9 @@
-import { User } from "../../domain/entities/User";
-import { UserNotFoundError } from "../../domain/errors/UserNotFoundError";
+import { User } from "../../domain/entities";
+import { UserNotFoundError } from "../../domain/errors";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { UpdateUserProps } from "../../domain/types/UpdateUserProps";
 import { UserFullname, UserId, UserRole, UserStatus } from "../../domain/value-objects";
-import { UserUpdatedProfileOutDTO } from "../dtos/UserUpdatedProfileOutDTO";
+import { UserUpdatedProfileOutDTO } from "../dtos";
 
 export class UserUpdateProfileUseCase{
     

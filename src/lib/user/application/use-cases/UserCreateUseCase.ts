@@ -1,12 +1,9 @@
 import { IPasswordHasher } from "src/lib/shared/application/security/IPasswordHasher";
-import { User } from "../../domain/entities/User";
-import { UserDuplicatedEmailError } from "../../domain/errors/UserEmailDuplicatedError";
-import { UserInvalidPropertyError } from "../../domain/errors/UserInvalidPropertyError";
+import { User } from "../../domain/entities";
+import { UserDuplicatedEmailError, UserInvalidPasswordError } from "../../domain/errors";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
-import { UserEmail, UserPassword } from "../../domain/value-objects";
-import { UserCreatedOutDTO } from "../dtos/UserCreatedOutDTO";
-import { UserCreateInDTO } from "../dtos/UserCreateInDTO";
-import { UserInvalidPasswordError } from "../../domain/errors/UserInvalidPasswordError";
+import { UserEmail } from "../../domain/value-objects";
+import { UserCreatedOutDTO, UserCreateInDTO } from "../dtos";
 
 export class UserCreateUseCase {
     

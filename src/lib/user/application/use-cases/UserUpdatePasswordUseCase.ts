@@ -1,10 +1,8 @@
-import { User } from '../../domain/entities/User';
-import { UserNotFoundError } from '../../domain/errors/UserNotFoundError';
+import { User } from '../../domain/entities';
+import { UserNotFoundError, UserInvalidOldPasswordError, UserInvalidPasswordError } from '../../domain/errors';
 import { IUserRepository } from '../../domain/repositories/IUserRepository'
 import { UserId, UserPassword } from '../../domain/value-objects';
-import { UserInvalidOldPasswordError } from '../../domain/errors/UserInvalidOldPasswordError';
-import { UserUpdatePasswordInDTO } from '../dtos/UserUpdatePasswordInDTO';
-import { UserInvalidPasswordError } from '../../domain/errors/UserInvalidPasswordError';
+import { UserUpdatePasswordInDTO } from '../dtos';
 import { IPasswordHasher } from 'src/lib/shared/application/security/IPasswordHasher';
 
 export class UserUpdatePasswordUseCase{

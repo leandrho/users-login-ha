@@ -1,7 +1,7 @@
-import { User } from '../../domain/entities/User';
+import { User } from '../../domain/entities';
 import { IUserRepository } from '../../domain/repositories/IUserRepository';
 import { UserEmail, UserId } from '../../domain/value-objects';
-import { UserDTO } from '../dtos/UserDTO';
+import { UserDTO } from '../dtos';
 
 export class UserQueryService{
 

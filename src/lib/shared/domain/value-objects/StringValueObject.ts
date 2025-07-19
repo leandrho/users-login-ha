@@ -1,5 +1,5 @@
-import { UserInvalidPropertyError } from "../../../user/domain/errors/UserInvalidPropertyError";
-import { ValidationResult } from './types';
+import { UserInvalidPropertyError } from "../../../user/domain/errors";
+import { ValidationResult } from '../types';
 import { ValueObject } from './ValueObject';
 
 export abstract class StringValueObject implements ValueObject<string>{

@@ -1,6 +1,6 @@
-import { UserInvalidPropertyError } from "src/lib/user/domain/errors/UserInvalidPropertyError";
+import { UserInvalidPropertyError } from "src/lib/user/domain/errors";
 import { ValueObject } from "./ValueObject";
-import { ValidationResult } from "./types";
+import { ValidationResult } from "../types";
 
 export abstract class DateValueObject implements ValueObject<Date>{
     private readonly _value: Date;

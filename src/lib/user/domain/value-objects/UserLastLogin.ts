@@ -1,5 +1,5 @@
 import { DateValueObject } from "src/lib/shared/domain/value-objects/DateValueObject";
-import { ValidationResult } from "src/lib/shared/domain/value-objects/types";
+import { ValidationResult } from "src/lib/shared/domain/types";
 
 export class UserLastLogin extends DateValueObject{
     

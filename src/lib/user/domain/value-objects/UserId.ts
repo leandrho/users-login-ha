@@ -1,7 +1,7 @@
 
 import { validate as uuidValidate, v4 as uuidv4 } from 'uuid';
 import { StringValueObject } from 'src/lib/shared/domain/value-objects/StringValueObject';
-import { ValidationResult } from 'src/lib/shared/domain/value-objects/types';
+import { ValidationResult } from 'src/lib/shared/domain/types';
 
 export class UserId extends StringValueObject{
 

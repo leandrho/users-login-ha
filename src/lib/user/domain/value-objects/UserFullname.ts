@@ -1,6 +1,5 @@
-import { StringValueObject } from "src/lib/shared/domain/value-objects/StringValueObject";
-import { UserInvalidPropertyError } from "../errors/UserInvalidPropertyError";
-import { ValidationResult } from "src/lib/shared/domain/value-objects/types";
+import { StringValueObject } from "src/lib/shared/domain/value-objects";
+import { ValidationResult } from "src/lib/shared/domain/types";
 
 export class UserFullname extends StringValueObject{
     

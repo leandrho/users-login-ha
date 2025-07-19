@@ -1,4 +1,4 @@
-import { DomainRuleViolationError } from "./DomainRuleViolationError";
+import { DomainRuleViolationError } from "./";
 
 export class UserDuplicatedEmailError extends DomainRuleViolationError{
     public readonly email: string;

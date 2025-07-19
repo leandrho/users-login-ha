@@ -1,4 +1,4 @@
-import { DomainRuleViolationError } from "./DomainRuleViolationError";
+import { DomainRuleViolationError } from "./";
 
 export class UserInvalidPropertyError extends DomainRuleViolationError{
     public readonly propName: string;

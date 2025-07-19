@@ -1,4 +1,4 @@
-import { DomainRuleViolationError } from "./DomainRuleViolationError";
+import { DomainRuleViolationError } from "./";
 
 export class UserNotFoundError extends DomainRuleViolationError{
     constructor(message: string = 'User not found.'){

@@ -1,7 +1,6 @@
-import { UserCreatedOutDTO, UserCreateInDTO, UserDTO, UserUpdatedProfileOutDTO, UserUpdatePasswordInDTO } from "../../application/dtos";
+import { UserCreatedOutDTO, UserCreateInDTO, UserDTO, UserUpdatedProfileOutDTO, UserUpdatePasswordInDTO, UserUpdatePropsDTO } from "../../application/dtos";
 import { UserQueryService } from "../../application/query-services/UserQueryService";
 import { UserCreateUseCase, UserUpdatePasswordUseCase, UserUpdateProfileUseCase } from "../../application/use-cases";
-import { UpdateUserProps } from "../../domain/types/UpdateUserProps";
 
 export class UserService {
 
@@ -16,7 +15,7 @@ export class UserService {
         return await this.userCreateUC.execute(createUser);
     }
         
-    public async updateProfile(id: string, data: UpdateUserProps):Promise<UserUpdatedProfileOutDTO>{
+    public async updateProfile(id: string, data: UserUpdatePropsDTO):Promise<UserUpdatedProfileOutDTO>{
         return await this.userUpdateProfileUC.execute(id, data);
     }
 

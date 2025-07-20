@@ -1,7 +1,7 @@
 import {Request, Response } from 'express';
 
 import { UserService } from './UserService';
-import { UserCreatedOutDTO, UserCreateInDTO, UserUpdatedProfileOutDTO, UserUpdatePasswordInDTO, UserDTO } from '../../application/dtos';
+import { UserCreatedOutDTO, UserCreateInDTO, UserUpdatedProfileOutDTO, UserUpdatePasswordInDTO, UserDTO, UserUpdatePropsDTO } from '../../application/dtos';
 import { 
     UserDuplicatedEmailError, 
     UserInvalidPropertyError, 
@@ -10,7 +10,6 @@ import {
     UserNotFoundError 
 } from '../../domain/errors';
 import { createUserSchema, updateProfileSchema, userEmailSchema, userIdSchema, userUpdatePasswordSchema } from './user-schemas';
-import { UpdateUserProps } from '../../domain/types/UpdateUserProps';
 
 export class UserController{
 
@@ -54,7 +53,7 @@ export class UserController{
                 res.status(400).json({message: 'Invalid request body data', error: profileValidation.error.message});
                 return;
             }
-            const values: UpdateUserProps = profileValidation.data;
+            const values: UserUpdatePropsDTO = profileValidation.data;
             const userUpdated: UserUpdatedProfileOutDTO = await this.userService.updateProfile(idValidation.data, values);
             res.status(200).json(userUpdated);
         }

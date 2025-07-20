@@ -1,21 +1,16 @@
 import {Request, Response } from 'express';
 
 import { UserService } from './UserService';
-import { UserCreatedOutDTO } from '../../application/dtos/UserCreatedOutDTO';
-import { UserCreateInDTO } from '../../application/dtos/UserCreateInDTO';
-import { UserDuplicatedEmailError } from '../../domain/errors/UserEmailDuplicatedError';
-import { UserInvalidPropertyError } from '../../domain/errors/UserInvalidPropertyError';
-import { UserInvalidPasswordError } from '../../domain/errors/UserInvalidPasswordError';
-
+import { UserCreatedOutDTO, UserCreateInDTO, UserUpdatedProfileOutDTO, UserUpdatePasswordInDTO, UserDTO } from '../../application/dtos';
+import { 
+    UserDuplicatedEmailError, 
+    UserInvalidPropertyError, 
+    UserInvalidPasswordError, 
+    UserInvalidOldPasswordError, 
+    UserNotFoundError 
+} from '../../domain/errors';
 import { createUserSchema, updateProfileSchema, userEmailSchema, userIdSchema, userUpdatePasswordSchema } from './user-schemas';
-import { UserUpdatedProfileOutDTO } from '../../application/dtos/UserUpdatedProfileOutDTO';
 import { UpdateUserProps } from '../../domain/types/UpdateUserProps';
-import { UserNotFoundError } from '../../domain/errors/UserNotFoundError';
-import { UserUpdatePasswordInDTO } from '../../application/dtos/UserUpdatePasswordInDTO';
-import { UserInvalidOldPasswordError } from '../../domain/errors/UserInvalidOldPasswordError';
-import { UserDTO } from '../../application/dtos/UserDTO';
-
-
 
 export class UserController{
 

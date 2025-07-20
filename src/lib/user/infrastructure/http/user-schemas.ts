@@ -15,6 +15,7 @@ export const updateProfileSchema = z.object({
 });
 
 export const userIdSchema = z.uuidv4('Invalid user id format');
+export const userEmailSchema = z.email('Invalid email format');
 
 export const userUpdatePasswordSchema = z.object({
     oldPassword: z.string().min(8),

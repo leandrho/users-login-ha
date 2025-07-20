@@ -1,12 +1,6 @@
-import { UserCreatedOutDTO } from "../../application/dtos/UserCreatedOutDTO";
-import { UserCreateInDTO } from "../../application/dtos/UserCreateInDTO";
-import { UserDTO } from "../../application/dtos/UserDTO";
-import { UserUpdatedProfileOutDTO } from "../../application/dtos/UserUpdatedProfileOutDTO";
-import { UserUpdatePasswordInDTO } from "../../application/dtos/UserUpdatePasswordInDTO";
+import { UserCreatedOutDTO, UserCreateInDTO, UserDTO, UserUpdatedProfileOutDTO, UserUpdatePasswordInDTO } from "../../application/dtos";
 import { UserQueryService } from "../../application/query-services/UserQueryService";
-import { UserCreateUseCase } from "../../application/use-cases/UserCreateUseCase";
-import { UserUpdatePasswordUseCase } from "../../application/use-cases/UserUpdatePasswordUseCase";
-import { UserUpdateProfileUseCase } from '../../application/use-cases/UserUpdateProfileUseCase';
+import { UserCreateUseCase, UserUpdatePasswordUseCase, UserUpdateProfileUseCase } from "../../application/use-cases";
 import { UpdateUserProps } from "../../domain/types/UpdateUserProps";
 
 export class UserService {

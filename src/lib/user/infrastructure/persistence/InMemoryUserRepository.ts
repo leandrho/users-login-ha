@@ -1,4 +1,4 @@
-import { User } from "../../domain/entities/User";
+import { User } from "../../domain/entities";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { UserId, UserEmail } from "../../domain/value-objects";
 

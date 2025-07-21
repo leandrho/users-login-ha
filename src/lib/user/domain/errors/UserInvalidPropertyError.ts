@@ -1,14 +1,11 @@
-import { DomainRuleViolationError } from "./";
+import { InvalidPropertyError } from "../../../shared/domain/errors/";
 
-export class UserInvalidPropertyError extends DomainRuleViolationError{
-    public readonly propName: string;
-    public readonly propValue: any;
+
+export class UserInvalidPropertyError extends InvalidPropertyError{
 
     constructor(message: string, propName: string, propValue: any){
-        super(message);
+        super(message, propName, propValue);
         this.name = 'UserInvalidPropertyError';
-        this.propName = propName;
-        this.propValue = propValue;
     }
 
 }

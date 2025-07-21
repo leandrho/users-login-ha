@@ -1,4 +1,4 @@
-export * from './DomainRuleViolationError'
+
 export * from './UserEmailDuplicatedError'
 export * from './UserInvalidOldPasswordError'
 export * from './UserInvalidPasswordError'

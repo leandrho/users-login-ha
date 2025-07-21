@@ -1,4 +1,4 @@
-import { DomainRuleViolationError } from "./";
+import { DomainRuleViolationError } from "../../../shared/domain/errors/";
 
 export class UserStatusUpdateNotAllowedError extends DomainRuleViolationError{
 

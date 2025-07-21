@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node dist/main.js",
-    "build": "npx tsc ./src/main.js --outDir ./dist/",
-    "dev": "npx ts-node ./src/main.ts"
+    "start": "node dist/app.js",
+    "build": "npx tsc ./src/app.js --outDir ./dist/",
+    "dev": "npx ts-node ./src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,11 +13,13 @@
   "type": "commonjs",
   "description": "",
   "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
     "@types/express": "^5.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.2",
     "express": "^5.1.0",
     "uuid": "^11.1.0",
     "zod": "^4.0.5"

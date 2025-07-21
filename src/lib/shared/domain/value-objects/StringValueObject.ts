@@ -1,4 +1,4 @@
-import { UserInvalidPropertyError } from "../../../user/domain/errors";
+import { InvalidPropertyError } from "../errors";
 import { ValidationResult } from '../types';
 import { ValueObject } from './ValueObject';
 
@@ -12,7 +12,7 @@ export abstract class StringValueObject implements ValueObject<string>{
         const validationResult: ValidationResult = this.isValid(v);
 
         if(!validationResult.isValid && validationResult.error){
-            throw new UserInvalidPropertyError(validationResult.error.errorMsg, validationResult.error.propName, validationResult.error.value)
+            throw new InvalidPropertyError(validationResult.error.errorMsg, validationResult.error.propName, validationResult.error.value)
         }
         this._value = v;
     }

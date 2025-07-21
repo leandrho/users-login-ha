@@ -1,4 +1,4 @@
-import { UserInvalidPropertyError } from "../../../user/domain/errors";
+import { InvalidPropertyError } from "../errors";
 import { ValueObject } from "./ValueObject";
 import { ValidationResult } from "../types";
 
@@ -9,7 +9,7 @@ export abstract class DateValueObject implements ValueObject<Date>{
 
         const validation: ValidationResult = this.isValid(value);
         if(!validation.isValid && validation.error){
-            throw new UserInvalidPropertyError(validation.error.errorMsg, validation.error.propName, validation.error.value);
+            throw new InvalidPropertyError(validation.error.errorMsg, validation.error.propName, validation.error.value);
         }
         this._value = value;
     }

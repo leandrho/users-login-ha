@@ -1,32 +1,21 @@
 import { Router } from "express";
-
-import { IUserRepository } from "../../domain/repositories/IUserRepository";
 import { UserController } from "./UserController";
-import { UserService } from "./UserService";
-import { UserCreateUseCase, UserUpdateProfileUseCase, UserUpdatePasswordUseCase } from "../../application/use-cases";
-import { UserQueryService } from "../../application/query-services";
-import { InMemoryUserRepository } from "../persistence/InMemoryUserRepository";
-import { IPasswordHasher } from "src/lib/shared/application/security/IPasswordHasher";
-import { BcryptPasswordHasher } from "src/lib/shared/infrastructure/BCryptPasswordHasher";
 
-const userRepository: IUserRepository = new InMemoryUserRepository();
-const passHasher: IPasswordHasher = new BcryptPasswordHasher();
+export class UserRouter{
+    public readonly router: Router;
 
-const uCreateUC: UserCreateUseCase = new UserCreateUseCase(userRepository, passHasher);
-const uProfileUC: UserUpdateProfileUseCase = new UserUpdateProfileUseCase(userRepository);
-const uPassUC: UserUpdatePasswordUseCase = new UserUpdatePasswordUseCase(userRepository, passHasher);
-const uQueryServ: UserQueryService = new UserQueryService(userRepository);
+    constructor(private readonly userController: UserController){
+        this.router = Router();
+        this.initializeRoutes();
+    }
 
-const uService: UserService = new UserService(uCreateUC, uProfileUC, uPassUC, uQueryServ);
-const userController: UserController = new UserController(uService);
+    private initializeRoutes(): void{
+        this.router.post('/', (req, res) => this.userController.create(req, res));
+        this.router.put('/:id', (req, res) => this.userController.updateProfile(req, res));
+        this.router.patch('/:id', (req, res) => this.userController.updatePassword(req, res));
+        this.router.get('/:id', (req, res) => this.userController.findById(req, res));
+        this.router.get('/email', (req, res) => this.userController.findByEmail(req, res));
+        this.router.get('/', (req, res) => this.userController.findAll(req, res));
+    }
 
-const userRouter: Router = Router();
-
-userRouter.post('/', (req, res) => userController.create(req, res));
-userRouter.put('/:id', (req, res) => userController.updateProfile(req, res));
-userRouter.patch('/:id', (req, res) => userController.updatePassword(req, res));
-userRouter.get('/:id', (req, res) => userController.findById(req, res));
-userRouter.get('/email', (req, res) => userController.findByEmail(req, res));
-userRouter.get('/', (req, res) => userController.findAll(req, res));
-
-export default userRouter;
+}

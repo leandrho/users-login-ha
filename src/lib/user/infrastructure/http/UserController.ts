@@ -55,6 +55,7 @@ export class UserController{
             }
             const values: UserUpdatePropsDTO = profileValidation.data;
             const userUpdated: UserUpdatedProfileOutDTO = await this.userService.updateProfile(idValidation.data, values);
+            console.log(userUpdated);
             res.status(200).json(userUpdated);
         }
         catch(error){

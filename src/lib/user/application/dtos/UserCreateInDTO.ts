@@ -1,6 +1,6 @@
 
 export type UserCreateInDTO = {
-    fullname: string;
+    fullName: string;
     email: string;
     password: string;
     role: string;

@@ -1,5 +1,5 @@
-import { StringValueObject } from "src/lib/shared/domain/value-objects/StringValueObject";
-import { ValidationResult } from "src/lib/shared/domain/types";
+import { StringValueObject } from '../../../shared/domain/value-objects/';
+import { ValidationResult } from "../../../shared/domain/types";
 
 export class UserRole extends StringValueObject{
     

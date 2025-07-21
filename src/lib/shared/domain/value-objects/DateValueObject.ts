@@ -1,4 +1,4 @@
-import { UserInvalidPropertyError } from "src/lib/user/domain/errors";
+import { UserInvalidPropertyError } from "../../../user/domain/errors";
 import { ValueObject } from "./ValueObject";
 import { ValidationResult } from "../types";
 

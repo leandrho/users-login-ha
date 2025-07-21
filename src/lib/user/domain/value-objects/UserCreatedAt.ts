@@ -1,5 +1,5 @@
-import { DateValueObject } from "src/lib/shared/domain/value-objects";
-import { ValidationResult } from "src/lib/shared/domain/types";
+import { DateValueObject } from '../../../shared/domain/value-objects/';
+import { ValidationResult } from "../../../shared/domain/types";
 
 export class UserCreatedAt extends DateValueObject{
 

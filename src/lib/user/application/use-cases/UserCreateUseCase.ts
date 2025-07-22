@@ -1,4 +1,4 @@
-import { IPasswordHasher } from "src/lib/shared/application/security/IPasswordHasher";
+import { IPasswordHasher } from "../../../shared/application/security/IPasswordHasher";
 import { User } from "../../domain/entities";
 import { UserDuplicatedEmailError, UserInvalidPasswordError } from "../../domain/errors";
 import { IUserRepository } from "../../domain/repositories/IUserRepository";

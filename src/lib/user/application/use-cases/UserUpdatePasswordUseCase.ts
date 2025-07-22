@@ -3,7 +3,7 @@ import { UserNotFoundError, UserInvalidOldPasswordError, UserInvalidPasswordErro
 import { IUserRepository } from '../../domain/repositories/IUserRepository'
 import { UserId, UserPassword } from '../../domain/value-objects';
 import { UserUpdatePasswordInDTO } from '../dtos';
-import { IPasswordHasher } from 'src/lib/shared/application/security/IPasswordHasher';
+import { IPasswordHasher } from "../../../shared/application/security/IPasswordHasher";
 
 export class UserUpdatePasswordUseCase{
     constructor(private readonly userRepository: IUserRepository, private readonly passwordHasher: IPasswordHasher ){}

@@ -1,7 +1,7 @@
 
 import * as bcrypt from 'bcryptjs'
 
-import { IPasswordHasher } from "../application/security/IPasswordHasher";
+import { IPasswordHasher } from "../../application/security/IPasswordHasher";
 
 export class BcryptPasswordHasher implements IPasswordHasher{
 

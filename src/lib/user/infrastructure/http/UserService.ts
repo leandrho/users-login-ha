@@ -1,6 +1,6 @@
 import { UserCreatedOutDTO, UserCreateInDTO, UserDTO, UserUpdatedProfileOutDTO, UserUpdatePasswordInDTO, UserUpdatePropsDTO } from "../../application/dtos";
 import { UserQueryService } from "../../application/query-services/UserQueryService";
-import { UserCreateUseCase, UserUpdatePasswordUseCase, UserUpdateProfileUseCase } from "../../application/use-cases";
+import { UserCreateUseCase, UserUpdatePasswordUseCase, UserUpdateProfileUseCase, UserDeleteUseCase } from "../../application/use-cases";
 
 export class UserService {
 
@@ -9,6 +9,7 @@ export class UserService {
         private readonly userUpdateProfileUC: UserUpdateProfileUseCase,
         private readonly userUpdatePasswordUC: UserUpdatePasswordUseCase,
         private readonly userQueryService: UserQueryService,
+        private readonly userDeleteUC: UserDeleteUseCase,
     ){}
 
     public async create(createUser: UserCreateInDTO): Promise<UserCreatedOutDTO>{
@@ -35,4 +36,7 @@ export class UserService {
         return await this.userQueryService.findAll()
     }
 
+    public async delete(id: string): Promise<void>{
+        return await this.userDeleteUC.execute(id);
+    }
 }

@@ -194,5 +194,27 @@ export class UserController{
             console.error("Internal Server Error:", error); // Log the error for debugging
         }
     }
+    public async delete(req: Request, res: Response): Promise<void>{
+        try {
+            
+            const idValidation = userIdSchema.safeParse(req.params.id);
+            if(!idValidation.success){
+                res.status(400).json({message: 'Invalid id parameter', error: idValidation.error.message});
+                return;
+            }
+            await this.userService.delete(idValidation.data);
+            res.status(204).send();
+
+        } catch (error) {
+            if(error instanceof UserNotFoundError)
+                res.status(404).json({message: error.message});
+            else if(error instanceof UserInvalidPropertyError)
+                res.status(400).json({message: error.message, property: error.propName});
+            else{
+                res.status(500).json( {message: 'Internal server error'});
+                console.error("Internal Server Error:", error); // Log the error for debugging
+            }
+        }
+    }
 
 }

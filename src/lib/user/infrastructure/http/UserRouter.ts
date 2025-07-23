@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { UserController } from "./UserController";
-import { authorizeRoleMid } from "src/lib/shared/infrastructure/http/middlewares/authorizeRolesMid";
+import { authorizeRoleMid } from "../../../shared/infrastructure/http/middlewares/authorizeRolesMid";
 import { UserRoleEnum } from "../../domain/value-objects";
 
 export class UserRouter{

@@ -7,7 +7,7 @@ import { IPasswordHasher } from "./lib/shared/application/security/IPasswordHash
 import { BcryptPasswordHasher } from "./lib/shared/infrastructure/security/BCryptPasswordHasher";
 import { IUserRepository } from "./lib/user/domain/repositories/IUserRepository";
 //import { InMemoryUserRepository } from "./lib/user/infrastructure/persistence/InMemoryUserRepository";
-import { UserCreateUseCase, UserUpdatePasswordUseCase, UserUpdateProfileUseCase } from "./lib/user/application/use-cases";
+import { UserCreateUseCase, UserDeleteUseCase, UserUpdatePasswordUseCase, UserUpdateProfileUseCase } from "./lib/user/application/use-cases";
 import { UserQueryService } from "./lib/user/application/query-services";
 import { UserService } from "./lib/user/infrastructure/http/UserService";
 import { UserController } from "./lib/user/infrastructure/http/UserController";
@@ -31,7 +31,8 @@ const uCreateUC: UserCreateUseCase = new UserCreateUseCase(userRepository, passH
 const uProfileUC: UserUpdateProfileUseCase = new UserUpdateProfileUseCase(userRepository);
 const uPassUC: UserUpdatePasswordUseCase = new UserUpdatePasswordUseCase(userRepository, passHasher);
 const uQueryServ: UserQueryService = new UserQueryService(userRepository);
-const uService: UserService = new UserService(uCreateUC, uProfileUC, uPassUC, uQueryServ);
+const uDeleteUC: UserDeleteUseCase = new UserDeleteUseCase(userRepository);
+const uService: UserService = new UserService(uCreateUC, uProfileUC, uPassUC, uQueryServ, uDeleteUC);
 const userController: UserController = new UserController(uService);
 const userRouter: UserRouter = new UserRouter(userController);
 

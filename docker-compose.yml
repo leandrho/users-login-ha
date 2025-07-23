@@ -1,0 +1,19 @@
+services:
+  # Servicio de base de datos PostgreSQL
+  postgres-db2: # Nombre del servicio de la base de datos
+    image: postgres:17.2 # Versión específica de la imagen de PostgreSQL
+    restart: always # Siempre reinicia el contenedor si se detiene
+    environment: # Variables de entorno para la configuración de PostgreSQL
+      # Se recomienda encarecidamente usar variables de entorno desde el archivo .env
+      # para las credenciales sensibles, en lugar de hardcodearlas aquí.
+      POSTGRES_DB: ${DB_NAME} # Nombre de la base de datos, tomado de .env
+      POSTGRES_USER: ${DB_USER} # Usuario de la base de datos, tomado de .env
+      POSTGRES_PASSWORD: ${DB_PASSWORD} # Contraseña del usuario, tomado de .env
+    ports: # Mapeo de puertos: HOST_PORT:CONTAINER_PORT
+      - "5432:5432" # Expone el puerto 5432 del contenedor al puerto 5432 del host
+    volumes: # Persistencia de datos para que no se pierdan al reiniciar el contenedor
+      # Se usa un bind mount. Asegúrate de que la carpeta './postgres' esté en tu .gitignore.
+      - ./postgres:/var/lib/postgresql/data # Mapea la carpeta 'postgres' en el host al directorio de datos de PostgreSQL
+
+# No se definen volúmenes nombrados si solo se usan bind mounts.
+# Si prefieres un volumen nombrado (como 'db_data' antes), la sección 'volumes:' iría aquí.

@@ -1,0 +1,41 @@
+import { IPasswordHasher } from "./lib/shared/application/security/IPasswordHasher";
+import { BcryptPasswordHasher } from "./lib/shared/infrastructure/security/BCryptPasswordHasher";
+import { IUserRepository } from "./lib/user/domain/repositories/IUserRepository";
+// import { InMemoryUserRepository } from "./lib/user/infrastructure/persistence/InMemoryUserRepository";
+import { UserCreateUseCase, UserDeleteUseCase, UserUpdatePasswordUseCase, UserUpdateProfileUseCase } from "./lib/user/application/use-cases";
+import { UserQueryService } from "./lib/user/application/query-services";
+import { UserService } from "./lib/user/infrastructure/http/UserService";
+import { UserController } from "./lib/user/infrastructure/http/UserController";
+import { UserRouter } from "./lib/user/infrastructure/http/UserRouter";
+import { AuthUserLoginUseCase } from './lib/auth/application/use-cases/AuthUserLoginUseCase';
+import { IAuthTokenService } from "./lib/shared/application/security/IAuthTokenService";
+import { JwtAuthTokenService } from "./lib/shared/infrastructure/security/JwtAuthTokenService";
+import { AuthService } from "./lib/auth/infrastructure/http/AuthService";
+import { AuthController } from "./lib/auth/infrastructure/http/AuthController";
+import { AuthRouter } from "./lib/auth/infrastructure/http/AuthRouter";
+import { PrismaUserRepository } from "./lib/user/infrastructure/persistence/PrismaUserRepository";
+
+// const userRepository: IUserRepository = new InMemoryUserRepository();
+const userRepository: IUserRepository = new PrismaUserRepository();
+const passHasher: IPasswordHasher = new BcryptPasswordHasher();
+
+const uCreateUC: UserCreateUseCase = new UserCreateUseCase(userRepository, passHasher);
+const uProfileUC: UserUpdateProfileUseCase = new UserUpdateProfileUseCase(userRepository);
+const uPassUC: UserUpdatePasswordUseCase = new UserUpdatePasswordUseCase(userRepository, passHasher);
+const uQueryServ: UserQueryService = new UserQueryService(userRepository);
+const uDeleteUC: UserDeleteUseCase = new UserDeleteUseCase(userRepository);
+const uService: UserService = new UserService(uCreateUC, uProfileUC, uPassUC, uQueryServ, uDeleteUC);
+const userController: UserController = new UserController(uService);
+const userRouter: UserRouter = new UserRouter(userController);
+
+const authTokenService: IAuthTokenService = new JwtAuthTokenService();
+const authUserLoginUseCase: AuthUserLoginUseCase = new AuthUserLoginUseCase(userRepository, passHasher, authTokenService);
+const authService: AuthService = new AuthService(authUserLoginUseCase);
+const authController: AuthController = new AuthController(authService);
+const authRouter: AuthRouter = new AuthRouter(authController);
+
+export {
+    userRouter,
+    authRouter,
+    authTokenService,
+}

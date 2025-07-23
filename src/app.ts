@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 import { IPasswordHasher } from "./lib/shared/application/security/IPasswordHasher";
 import { BcryptPasswordHasher } from "./lib/shared/infrastructure/security/BCryptPasswordHasher";
 import { IUserRepository } from "./lib/user/domain/repositories/IUserRepository";
-import { InMemoryUserRepository } from "./lib/user/infrastructure/persistence/InMemoryUserRepository";
+//import { InMemoryUserRepository } from "./lib/user/infrastructure/persistence/InMemoryUserRepository";
 import { UserCreateUseCase, UserUpdatePasswordUseCase, UserUpdateProfileUseCase } from "./lib/user/application/use-cases";
 import { UserQueryService } from "./lib/user/application/query-services";
 import { UserService } from "./lib/user/infrastructure/http/UserService";
@@ -19,10 +19,12 @@ import { AuthService } from "./lib/auth/infrastructure/http/AuthService";
 import { AuthController } from "./lib/auth/infrastructure/http/AuthController";
 import { AuthRouter } from "./lib/auth/infrastructure/http/AuthRouter";
 import { authenticateTokenMid } from './lib/shared/infrastructure/http/middlewares/authenticateTokenMid';
+import { PrismaUserRepository } from "./lib/user/infrastructure/persistence/PrismaUserRepository";
 
 dotenv.config();
 
-const userRepository: IUserRepository = new InMemoryUserRepository();
+// const userRepository: IUserRepository = new InMemoryUserRepository();
+const userRepository: IUserRepository = new PrismaUserRepository();
 const passHasher: IPasswordHasher = new BcryptPasswordHasher();
 
 const uCreateUC: UserCreateUseCase = new UserCreateUseCase(userRepository, passHasher);

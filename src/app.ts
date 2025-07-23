@@ -18,6 +18,7 @@ import { JwtAuthTokenService } from "./lib/shared/infrastructure/security/JwtAut
 import { AuthService } from "./lib/auth/infrastructure/http/AuthService";
 import { AuthController } from "./lib/auth/infrastructure/http/AuthController";
 import { AuthRouter } from "./lib/auth/infrastructure/http/AuthRouter";
+import { authenticateTokenMid } from './lib/shared/infrastructure/http/middlewares/authenticateTokenMid';
 
 dotenv.config();
 
@@ -50,7 +51,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
     res.status(status).json({ message: message });
 });
 
-app.use('/api/users/', userRouter.router);
+app.use('/api/users/', authenticateTokenMid(authTokenService), userRouter.router);
 app.use('/api/auth/', authRouter.router)
 
 const port: number = parseInt(process.env.PORT ?? "3000");

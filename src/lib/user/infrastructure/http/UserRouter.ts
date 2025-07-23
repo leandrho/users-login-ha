@@ -1,5 +1,7 @@
 import { Router } from "express";
 import { UserController } from "./UserController";
+import { authorizeRoleMid } from "src/lib/shared/infrastructure/http/middlewares/authorizeRolesMid";
+import { UserRoleEnum } from "../../domain/value-objects";
 
 export class UserRouter{
     public readonly router: Router;
@@ -10,12 +12,12 @@ export class UserRouter{
     }
 
     private initializeRoutes(): void{
-        this.router.post('/', (req, res) => this.userController.create(req, res));
-        this.router.put('/:id', (req, res) => this.userController.updateProfile(req, res));
-        this.router.patch('/:id', (req, res) => this.userController.updatePassword(req, res));
-        this.router.get('/:id', (req, res) => this.userController.findById(req, res));
-        this.router.get('/email', (req, res) => this.userController.findByEmail(req, res));
-        this.router.get('/', (req, res) => this.userController.findAll(req, res));
+        this.router.post('/', authorizeRoleMid([UserRoleEnum.ADMIN]), (req, res) => this.userController.create(req, res));
+        this.router.put('/:id', authorizeRoleMid([UserRoleEnum.ADMIN, UserRoleEnum.USER]), (req, res) => this.userController.updateProfile(req, res));
+        this.router.patch('/:id', authorizeRoleMid([UserRoleEnum.ADMIN, UserRoleEnum.USER]), (req, res) => this.userController.updatePassword(req, res));
+        this.router.get('/email', authorizeRoleMid([UserRoleEnum.ADMIN]), (req, res) => this.userController.findByEmail(req, res));
+        this.router.get('/:id', authorizeRoleMid([UserRoleEnum.ADMIN, UserRoleEnum.USER]), (req, res) => this.userController.findById(req, res));
+        this.router.get('/', authorizeRoleMid([UserRoleEnum.ADMIN]), (req, res) => this.userController.findAll(req, res));
     }
 
 }

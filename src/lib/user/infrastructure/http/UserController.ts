@@ -48,6 +48,17 @@ export class UserController{
                 res.status(400).json({message: 'Invalid id parameter', error: idValidation.error.message});
                 return;
             }
+
+            const user: UserDTO | null = await this.userService.findById(idValidation.data);
+            if(!user){
+                res.status(404).json({message: 'User not found'});
+                return;
+            }
+            if(req.user?.role!== 'admin' && req.user?.userId !== user?.id){
+                res.status(403).json({message: 'Forbidden: You can only update your own profile.'});
+                return;
+            }
+
             const profileValidation = updateProfileSchema.safeParse(req.body);
             if(!profileValidation.success){
                 res.status(400).json({message: 'Invalid request body data', error: profileValidation.error.message});
@@ -77,6 +88,17 @@ export class UserController{
                     res.status(400).json({message: 'Invalid id parameter', error: idValidation.error.message});
                     return;
                 }
+                
+                const user: UserDTO | null = await this.userService.findById(idValidation.data);
+                if(!user){
+                    res.status(404).json({message: 'User not found'});
+                    return;
+                }
+                if(req.user?.role!== 'admin' && req.user?.userId !== user?.id){
+                    res.status(403).json({message: 'Forbidden: You can only change your own password.'});
+                    return;
+                }
+
                 const dataValidation = userUpdatePasswordSchema.safeParse(req.body);
                 if(!dataValidation.success){
                     res.status(400).json({message: 'Invalid request body data', error: dataValidation.error.message});
@@ -114,8 +136,17 @@ export class UserController{
                 return;
             }
             const user: UserDTO | null = await this.userService.findById(idValidation.data);
-            if(!user)
+            
+            if(!user){
                 res.status(404).json({message: 'User not found'});
+                return;
+            }
+            
+            if(req.user?.role!== 'admin' && req.user?.userId !== user?.id){
+                res.status(403).json({message: 'Forbidden: Insufficient role permissions.'});
+                return;
+            }
+
             
             res.status(200).json(user);
 
@@ -137,8 +168,10 @@ export class UserController{
                 return;
             }
             const user: UserDTO | null = await this.userService.findByEmail(emailValidation.data);
-            if(!user)
+            if(!user){
                 res.status(404).json({message: 'User not found'});
+                return;
+            }
             
             res.status(200).json(user);
 

@@ -1,2 +1,4 @@
 export * from './AuthUserLoginInDTO'
 export * from './AuthUserLoginOutDTO'
+export * from  './RegisterUserInDTO'
+export * from  './RegisterUserOutDTO'

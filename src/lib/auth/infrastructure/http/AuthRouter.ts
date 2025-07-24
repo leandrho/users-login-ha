@@ -6,11 +6,12 @@ export class AuthRouter{
     public router: Router = Router();
 
     constructor(private readonly authController: AuthController){
-        this.initilize();
+        this.initialize();
     }
 
-    private initilize(): void{
+    private initialize(): void{
         this.router.post('/login', (req, res) => this.authController.login(req, res));
+        this.router.post('/register', (req, res) => this.authController.register(req, res));
     }
 
 }

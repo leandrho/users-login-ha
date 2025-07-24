@@ -14,6 +14,7 @@ import { AuthService } from "./lib/auth/infrastructure/http/AuthService";
 import { AuthController } from "./lib/auth/infrastructure/http/AuthController";
 import { AuthRouter } from "./lib/auth/infrastructure/http/AuthRouter";
 import { PrismaUserRepository } from "./lib/user/infrastructure/persistence/PrismaUserRepository";
+import { AuthRegisterUserUseCase } from './lib/auth/application/use-cases/AuthRegisterUserUseCase';
 
 // const userRepository: IUserRepository = new InMemoryUserRepository();
 const userRepository: IUserRepository = new PrismaUserRepository();
@@ -29,8 +30,9 @@ const userController: UserController = new UserController(uService);
 const userRouter: UserRouter = new UserRouter(userController);
 
 const authTokenService: IAuthTokenService = new JwtAuthTokenService();
-const authUserLoginUseCase: AuthUserLoginUseCase = new AuthUserLoginUseCase(userRepository, passHasher, authTokenService);
-const authService: AuthService = new AuthService(authUserLoginUseCase);
+const authUserLoginUC: AuthUserLoginUseCase = new AuthUserLoginUseCase(userRepository, passHasher, authTokenService);
+const authRegisterUserUC: AuthRegisterUserUseCase = new AuthRegisterUserUseCase(userRepository, passHasher);
+const authService: AuthService = new AuthService(authUserLoginUC, authRegisterUserUC);
 const authController: AuthController = new AuthController(authService);
 const authRouter: AuthRouter = new AuthRouter(authController);
 

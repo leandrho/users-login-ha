@@ -1,6 +1,5 @@
 import { UserId } from "../../../user/domain/value-objects";
-import { PasswordResetTokenCreatedAt, PasswordResetTokenExpiresAt, PasswordResetTokenId, PasswordResetTokenValue } from "../value-objects";
-import { PasswordResetTokenUsedAt } from "../value-objects/PasswordResetTokenUsedAt";
+import { PasswordResetTokenCreatedAt, PasswordResetTokenExpiresAt, PasswordResetTokenId, PasswordResetTokenValue, PasswordResetTokenUsedAt } from "../value-objects";
 
 
 export class PasswordResetToken{

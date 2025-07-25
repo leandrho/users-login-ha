@@ -6,12 +6,12 @@ import { PasswordResetTokenUsedAt } from "../value-objects/PasswordResetTokenUse
 export class PasswordResetToken{
 
     constructor(
-        private readonly id: PasswordResetTokenId,
-        private readonly token: PasswordResetTokenValue,
-        private readonly expiresAt: PasswordResetTokenExpiresAt,
-        private readonly userId: UserId,
-        private readonly createdAt: PasswordResetTokenCreatedAt,
-        private usedAt?: PasswordResetTokenUsedAt,
+        public readonly id: PasswordResetTokenId,
+        public readonly token: PasswordResetTokenValue,
+        public readonly expiresAt: PasswordResetTokenExpiresAt,
+        public readonly userId: UserId,
+        public readonly createdAt: PasswordResetTokenCreatedAt,
+        public usedAt?: PasswordResetTokenUsedAt,
     ){}
 
     public markAsUsed(): void{
@@ -39,6 +39,17 @@ export class PasswordResetToken{
             createdAt: this.createdAt.value(),
             usedAt: this.usedAt?.value(),
         }
+    }
+
+    public static fromPrimitives( id: string, token: string, expiresAt: Date, userId: string, createdAt: Date, usedAt?: Date ): PasswordResetToken{
+        return new PasswordResetToken(
+            new PasswordResetTokenId(id),
+            new PasswordResetTokenValue(token),
+            new PasswordResetTokenExpiresAt(expiresAt),
+            new UserId(userId),
+            new PasswordResetTokenCreatedAt(createdAt),
+            usedAt ? new PasswordResetTokenUsedAt(usedAt) : undefined,
+        );
     }
 
     public static createNew( userId: string, expiresInMinutes: number = 15): PasswordResetToken{

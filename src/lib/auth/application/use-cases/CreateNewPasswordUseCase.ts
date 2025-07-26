@@ -1,12 +1,12 @@
-import { IPasswordHasher } from "src/lib/shared/application/security/IPasswordHasher";
+import { IPasswordHasher } from "../../../shared/application/security/IPasswordHasher";
 import { IPasswordResetTokenRepository } from "../../domain/repository/IPasswordResetTokenRepository";
 import { CreateNewPasswordInDTO } from "../dtos/CreateNewPasswordInDTO";
 import { PasswordResetTokenValue } from "../../domain/value-objects";
-import { IUserRepository } from "src/lib/user/domain/repositories/IUserRepository";
+import { IUserRepository } from "../../../user/domain/repositories/IUserRepository";
 import { CreateNewPasswordInvalidTokenError } from "../../domain/errors/CreateNewPasswordInvalidToken";
 import { CreateNewPasswordMismatchError } from "../../domain/errors/CreateNewPasswordMismatchError";
-import { UserNotFoundError } from "src/lib/user/domain/errors";
-import { UserPassword } from "src/lib/user/domain/value-objects";
+import { UserNotFoundError } from "../../../user/domain/errors";
+import { UserPassword } from "../../../user/domain/value-objects";
 import { CreateNewPasswordExpiredTokenError } from "../../domain/errors/CreateNewPasswordExpiredToken";
 export class CreateNewPasswordUseCase{
     constructor(

@@ -5,7 +5,7 @@ import { RequestPasswordResetInDTO } from "../dtos/RequestPasswordResetInDTO";
 import { UserEmail } from "../../../user/domain/value-objects";
 import { UserNotFoundError } from "../../../user/domain/errors";
 import { PasswordResetToken } from "../../domain/entities/PasswordResetToken";
-import envs from "src/config/envs";
+import envs from "../../../../config/envs";
 
 
 export class RequestPasswordResetUseCase{

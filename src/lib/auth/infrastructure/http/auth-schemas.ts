@@ -11,3 +11,7 @@ export const registerUserSchema = z.object({
     email: z.email('Invalid email format'),
     password: z.string().min(8),
 });
+
+export const requestResetPasswordSchema = z.object({
+    email: z.email('Invalid email format'),
+});

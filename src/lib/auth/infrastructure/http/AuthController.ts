@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { AuthService } from "./AuthService";
 import { AuthenticationFailedError } from "../../domain/errors/AuthenticationFailedError";
-import { authLoginSchema, registerUserSchema } from "./auth-schemas";
+import { authLoginSchema, registerUserSchema, requestResetPasswordSchema } from "./auth-schemas";
 import { RegisterUserInDTO } from '../../application/dtos/RegisterUserInDTO';
-import { UserDuplicatedEmailError, UserInvalidPasswordError, UserInvalidPropertyError } from "../../../user/domain/errors";
+import { UserDuplicatedEmailError, UserInvalidPasswordError, UserInvalidPropertyError, UserNotFoundError } from "../../../user/domain/errors";
 
 export class AuthController{
 
@@ -57,6 +57,28 @@ export class AuthController{
             }
         }
             
+    }
+    public async requestPasswordReset(req: Request, res: Response): Promise<void> {
+        try{
+            const emailValidated = requestResetPasswordSchema.safeParse(req.body);
+            if(!emailValidated.success){
+                res.status(400).json({message: 'Invalid request body data', error: emailValidated.error.message});
+                return;
+            }
+            await this.authService.requestPasswordReset(emailValidated.data.email);
+            res.status(200).json({message: 'Check your email to reset your password!'});
+            
+        } catch (error) {
+            if(error instanceof UserNotFoundError)
+                res.status(404).json({message: error.message});
+            else if(error instanceof UserInvalidPropertyError)
+                res.status(400).json({message: error.message, property: error.propName});
+            else{
+                res.status(500).json( {message: 'Internal server error'});
+                console.error("Internal Server Error:", error); // Log the error for debugging
+            }
+        }
+    
     }
 
 }

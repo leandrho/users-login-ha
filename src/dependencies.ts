@@ -15,10 +15,16 @@ import { AuthController } from "./lib/auth/infrastructure/http/AuthController";
 import { AuthRouter } from "./lib/auth/infrastructure/http/AuthRouter";
 import { PrismaUserRepository } from "./lib/user/infrastructure/persistence/PrismaUserRepository";
 import { AuthRegisterUserUseCase } from './lib/auth/application/use-cases/AuthRegisterUserUseCase';
+import { RequestPasswordResetUseCase } from "./lib/auth/application/use-cases/RequestPasswordResetUseCase";
+import { IPasswordResetTokenRepository } from "./lib/auth/domain/repository/IPasswordResetTokenRepository";
+import { InMemoryPasswordResetTokenRepository } from "./lib/auth/infrastructure/persistence/InMemoryPasswordResetTokenRepository";
+import { IEmailService } from "./lib/shared/application/email/IEmailService";
+import { NodemailerEmailService } from "./lib/shared/infrastructure/email/NodemailerEmailService";
 
 // const userRepository: IUserRepository = new InMemoryUserRepository();
 const userRepository: IUserRepository = new PrismaUserRepository();
 const passHasher: IPasswordHasher = new BcryptPasswordHasher();
+const emailService: IEmailService = new NodemailerEmailService();
 
 const uCreateUC: UserCreateUseCase = new UserCreateUseCase(userRepository, passHasher);
 const uProfileUC: UserUpdateProfileUseCase = new UserUpdateProfileUseCase(userRepository);
@@ -30,9 +36,11 @@ const userController: UserController = new UserController(uService);
 const userRouter: UserRouter = new UserRouter(userController);
 
 const authTokenService: IAuthTokenService = new JwtAuthTokenService();
+const passResetTokenRepository: IPasswordResetTokenRepository = new InMemoryPasswordResetTokenRepository();
 const authUserLoginUC: AuthUserLoginUseCase = new AuthUserLoginUseCase(userRepository, passHasher, authTokenService);
 const authRegisterUserUC: AuthRegisterUserUseCase = new AuthRegisterUserUseCase(userRepository, passHasher);
-const authService: AuthService = new AuthService(authUserLoginUC, authRegisterUserUC);
+const requestPasswordResetUC: RequestPasswordResetUseCase = new RequestPasswordResetUseCase(passResetTokenRepository, userRepository, emailService);
+const authService: AuthService = new AuthService(authUserLoginUC, authRegisterUserUC, requestPasswordResetUC);
 const authController: AuthController = new AuthController(authService);
 const authRouter: AuthRouter = new AuthRouter(authController);
 

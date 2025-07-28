@@ -1,3 +1,7 @@
 export * from './AuthenticationFailedError'
 export * from './PasswordResetTokenFailedError'
 export * from './PasswordResetTokenNotFoundError'
+export * from './CreateNewPasswordInvalidTokenError'
+export * from './CreateNewPasswordExpiredTokenError'
+export * from './CreateNewPasswordMismatchError'
+export * from './CreateNewPasswordAlreadyUserdTokenError'

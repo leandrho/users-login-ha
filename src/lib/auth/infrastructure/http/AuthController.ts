@@ -1,9 +1,11 @@
 import { Request, Response } from "express";
 import { AuthService } from "./AuthService";
 import { AuthenticationFailedError } from "../../domain/errors/AuthenticationFailedError";
-import { authLoginSchema, registerUserSchema, requestResetPasswordSchema } from "./auth-schemas";
+import { authLoginSchema, registerUserSchema, requestResetPasswordSchema, resetPasswordSchema } from "./auth-schemas";
 import { RegisterUserInDTO } from '../../application/dtos/RegisterUserInDTO';
 import { UserDuplicatedEmailError, UserInvalidPasswordError, UserInvalidPropertyError, UserNotFoundError } from "../../../user/domain/errors";
+import { ResetPasswordInDTO } from "../../application/dtos";
+import { ResetPasswordTokenAlreadyUsedError, ResetPasswordInvalidTokenError, PasswordMismatchError } from "../../domain/errors";
 
 export class AuthController{
 
@@ -79,6 +81,35 @@ export class AuthController{
             }
         }
     
+    }
+    public async resetPassword(req: Request, res: Response):Promise<void>{
+        try {
+            const dataValidated = resetPasswordSchema.safeParse(req.body);
+            if(!dataValidated.success){
+                res.status(400).json({message: 'Invalid request body data', error: dataValidated.error.message});
+                return;
+            }
+            
+            const data: ResetPasswordInDTO = dataValidated.data;
+            await this.authService.resetPassword(data);
+            res.status(200).json({message: 'Password reset successfully'});
+
+        } catch (error) {
+            if(error instanceof PasswordMismatchError)
+                res.status(400).json({message: error.message});
+            else if(error instanceof ResetPasswordInvalidTokenError)
+                res.status(400).json({message: error.message});
+            else if(error instanceof ResetPasswordTokenAlreadyUsedError)
+                res.status(400).json({message: error.message});
+            else if(error instanceof UserNotFoundError)
+                res.status(404).json({message: error.message});
+            else if(error instanceof UserInvalidPropertyError)
+                res.status(400).json({message: error.message, property: error.propName});
+            else{
+                res.status(500).json( {message: 'Internal server error'});
+                console.error("Internal Server Error:", error); // Log the error for debugging
+            }
+        }
     }
 
 }

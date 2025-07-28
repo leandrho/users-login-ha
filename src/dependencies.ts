@@ -16,10 +16,12 @@ import { AuthRouter } from "./lib/auth/infrastructure/http/AuthRouter";
 import { PrismaUserRepository } from "./lib/user/infrastructure/persistence/PrismaUserRepository";
 import { AuthRegisterUserUseCase } from './lib/auth/application/use-cases/AuthRegisterUserUseCase';
 import { RequestPasswordResetUseCase } from "./lib/auth/application/use-cases/RequestPasswordResetUseCase";
+import { ResetPasswordUseCase } from './lib/auth/application/use-cases/ResetPasswordUseCase';
 import { IPasswordResetTokenRepository } from "./lib/auth/domain/repository/IPasswordResetTokenRepository";
 import { InMemoryPasswordResetTokenRepository } from "./lib/auth/infrastructure/persistence/InMemoryPasswordResetTokenRepository";
 import { IEmailService } from "./lib/shared/application/email/IEmailService";
 import { NodemailerEmailService } from "./lib/shared/infrastructure/email/NodemailerEmailService";
+
 
 // const userRepository: IUserRepository = new InMemoryUserRepository();
 const userRepository: IUserRepository = new PrismaUserRepository();
@@ -40,7 +42,8 @@ const passResetTokenRepository: IPasswordResetTokenRepository = new InMemoryPass
 const authUserLoginUC: AuthUserLoginUseCase = new AuthUserLoginUseCase(userRepository, passHasher, authTokenService);
 const authRegisterUserUC: AuthRegisterUserUseCase = new AuthRegisterUserUseCase(userRepository, passHasher);
 const requestPasswordResetUC: RequestPasswordResetUseCase = new RequestPasswordResetUseCase(passResetTokenRepository, userRepository, emailService);
-const authService: AuthService = new AuthService(authUserLoginUC, authRegisterUserUC, requestPasswordResetUC);
+const resetPasswordUC: ResetPasswordUseCase = new ResetPasswordUseCase(passResetTokenRepository, passHasher, userRepository);
+const authService: AuthService = new AuthService(authUserLoginUC, authRegisterUserUC, requestPasswordResetUC, resetPasswordUC);
 const authController: AuthController = new AuthController(authService);
 const authRouter: AuthRouter = new AuthRouter(authController);
 

@@ -11,7 +11,8 @@ const envs = {
         JWT_REFRESH_SECRET: env.get('JWT_REFRESH_SECRET').required().asString(),// no se usa todavia
         JWT_ACCESS_EXPIRATION_TIME: env.get('JWT_ACCESS_EXPIRATION_TIME').required().asString(),
         JWT_REFRESH_EXPIRATION_TIME: env.get('JWT_REFRESH_EXPIRATION_TIME').required().asString(),
-        RESET_PASSWORD_URL: env.get('RESET_PASSWORD_URL').required().asString()
+        RESET_PASSWORD_URL: env.get('RESET_PASSWORD_URL').required().asString(),
+        RESET_PASSWORD_TOKEN_EXPIRATION_MINUTES: env.get('RESET_PASSWORD_TOKEN_EXPIRATION_MINUTES').required().asInt(),
     }
 
 }

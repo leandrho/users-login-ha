@@ -3,7 +3,7 @@ import { IPasswordResetTokenRepository } from "../../domain/repository/IPassword
 import { ResetPasswordInDTO, ResetPasswordOutDTO } from "../dtos";
 import { PasswordResetTokenValue } from "../../domain/value-objects";
 import { IUserRepository } from "../../../user/domain/repositories/IUserRepository";
-import { ResetPasswordInvalidTokenError, ResetPasswordMismatchError, ResetPasswordAlreadyUsedTokenError, ResetPasswordExpiredTokenError } from "../../domain/errors";
+import { ResetPasswordInvalidTokenError, PasswordMismatchError, ResetPasswordTokenAlreadyUsedError, ResetPasswordExpiredTokenError } from "../../domain/errors";
 import { UserNotFoundError } from "../../../user/domain/errors";
 import { UserPassword } from "../../../user/domain/value-objects";
 
@@ -17,14 +17,14 @@ export class ResetPasswordUseCase{
     public async execute(resetPasswordIn: ResetPasswordInDTO): Promise<ResetPasswordOutDTO>{
       
         if(resetPasswordIn.newPassword !== resetPasswordIn.confirmPassword)
-            throw new ResetPasswordMismatchError('Passwords do not match');
+            throw new PasswordMismatchError('Passwords do not match');
 
         const token = await this.passwordResetTokenRepository.findByToken(new PasswordResetTokenValue(resetPasswordIn.token));
         if( !token )
             throw new ResetPasswordInvalidTokenError('Invalid or non-existent password reset token.');
 
          if( token.isUsed() )
-            throw new ResetPasswordAlreadyUsedTokenError('Password reset token has already been used.');
+            throw new ResetPasswordTokenAlreadyUsedError('Password reset token has already been used.');
 
         if(token.isExpired())
             throw new ResetPasswordExpiredTokenError('Token expired');

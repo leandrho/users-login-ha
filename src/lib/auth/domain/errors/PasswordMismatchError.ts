@@ -1,8 +1,8 @@
 import { DomainRuleViolationError } from "../../../shared/domain/errors";
 
-export class ResetPasswordMismatchError extends DomainRuleViolationError{
+export class PasswordMismatchError extends DomainRuleViolationError{
     constructor(message: string = 'Passwords do not match.'  ){
         super(message);
-        this.name = 'ResetPasswordMismatchError';
+        this.name = 'PasswordMismatchError';
     }
 }

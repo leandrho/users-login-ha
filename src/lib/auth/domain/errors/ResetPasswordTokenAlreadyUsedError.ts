@@ -1,8 +1,8 @@
 import { DomainRuleViolationError } from "../../../shared/domain/errors";
 
-export class ResetPasswordAlreadyUsedTokenError extends DomainRuleViolationError{
+export class ResetPasswordTokenAlreadyUsedError extends DomainRuleViolationError{
     constructor(message: string = 'Password reset token already used.'  ){
         super(message);
-        this.name = 'ResetPasswordAlreadyUsedTokenError';
+        this.name = 'ResetPasswordTokenAlreadyUsedError';
     }
 }

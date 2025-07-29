@@ -34,10 +34,10 @@ export class RequestPasswordResetUseCase{
             <p>This link will expire in ${envs.AUTH.RESET_PASSWORD_TOKEN_EXPIRATION_MINUTES || 10} minutes.</p>
             <p>If you did not request a password reset, please ignore this email.</p>
             <p>Thank you,</p>
-            <p>Your Application Team</p>$
+            <p>Your Application Team</p>
             `
 
-        await this.emailService.send(data.email, subject, body);
+        await this.emailService.send({to: data.email, subject, body});
         return {message: 'If an account with that email exists, a password reset link has been sent.'};
     }
 

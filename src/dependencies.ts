@@ -20,13 +20,29 @@ import { ResetPasswordUseCase } from './lib/auth/application/use-cases/ResetPass
 import { IPasswordResetTokenRepository } from "./lib/auth/domain/repository/IPasswordResetTokenRepository";
 import { InMemoryPasswordResetTokenRepository } from "./lib/auth/infrastructure/persistence/InMemoryPasswordResetTokenRepository";
 import { IEmailService } from "./lib/shared/application/email/IEmailService";
-import { NodemailerEmailService } from "./lib/shared/infrastructure/email/NodemailerEmailService";
+import { EmailServiceConfigInfo, NodemailerEmailService } from "./lib/shared/infrastructure/email/NodemailerEmailService";
+import envs from "./config/envs";
 
 
 // const userRepository: IUserRepository = new InMemoryUserRepository();
 const userRepository: IUserRepository = new PrismaUserRepository();
 const passHasher: IPasswordHasher = new BcryptPasswordHasher();
-const emailService: IEmailService = new NodemailerEmailService();
+
+const emailConfigInfo: EmailServiceConfigInfo = {
+    host: envs.EMAIL.HOST,
+    port: envs.EMAIL.PORT,
+    fromAddress: envs.EMAIL.FROM_ADDRESS,
+    service: envs.EMAIL.SERVICE,
+    secure: envs.EMAIL.SECURE,
+    auth: {
+        user: envs.EMAIL.AUTH.USER,
+        pass: envs.EMAIL.AUTH.PASS,
+    }
+}
+const emailService: IEmailService = new NodemailerEmailService(emailConfigInfo);
+
+// const send = async () => console.log("EMAIL: ",await emailService.send({ to: "lruiz@alsurdelsur.com", subject: "Test mail", body: "lorem ipsum dolor sit amet, como para que tenga contenido.." }));
+// send();
 
 const uCreateUC: UserCreateUseCase = new UserCreateUseCase(userRepository, passHasher);
 const uProfileUC: UserUpdateProfileUseCase = new UserUpdateProfileUseCase(userRepository);

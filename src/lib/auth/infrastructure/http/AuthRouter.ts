@@ -12,6 +12,7 @@ export class AuthRouter{
     private initialize(): void{
         this.router.post('/login', (req, res) => this.authController.login(req, res));
         this.router.post('/register', (req, res) => this.authController.register(req, res));
+        this.router.post('/forgot-password', (req, res) => this.authController.requestPasswordReset(req, res));
         this.router.post('/reset-password', (req, res) => this.authController.resetPassword(req, res));
     }
 

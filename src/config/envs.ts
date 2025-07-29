@@ -13,7 +13,19 @@ const envs = {
         JWT_REFRESH_EXPIRATION_TIME: env.get('JWT_REFRESH_EXPIRATION_TIME').required().asString(),
         RESET_PASSWORD_URL: env.get('RESET_PASSWORD_URL').required().asString(),
         RESET_PASSWORD_TOKEN_EXPIRATION_MINUTES: env.get('RESET_PASSWORD_TOKEN_EXPIRATION_MINUTES').required().asInt(),
+    },
+    EMAIL: {
+            HOST: env.get('EMAIL_HOST').required().asString(),
+            PORT: env.get('EMAIL_PORT').required().asInt(),
+            FROM_ADDRESS: env.get('EMAIL_FROM_ADDRESS').required().asString(),
+            SERVICE: env.get('EMAIL_SERVICE').required().asString(),
+            SECURE: env.get('EMAIL_SECURE').required().asBool(),
+            AUTH: {
+                USER: env.get('EMAIL_USER').required().asString(),
+                PASS: env.get('EMAIL_PASS').required().asString(),
+            }
     }
+
 
 }
 export default envs;

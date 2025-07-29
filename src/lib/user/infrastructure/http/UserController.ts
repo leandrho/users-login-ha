@@ -1,21 +1,14 @@
-import {Request, Response } from 'express';
+import {NextFunction, Request, Response } from 'express';
 
 import { UserService } from './UserService';
 import { UserCreatedOutDTO, UserCreateInDTO, UserUpdatedProfileOutDTO, UserUpdatePasswordInDTO, UserDTO, UserUpdatePropsDTO } from '../../application/dtos';
-import { 
-    UserDuplicatedEmailError, 
-    UserInvalidPropertyError, 
-    UserInvalidPasswordError, 
-    UserInvalidOldPasswordError, 
-    UserNotFoundError 
-} from '../../domain/errors';
 import { createUserSchema, updateProfileSchema, userEmailSchema, userIdSchema, userUpdatePasswordSchema } from './user-schemas';
 
 export class UserController{
 
     constructor(private readonly userService: UserService){}
 
-    public async create(req: Request, res: Response): Promise<void>{
+    public async create(req: Request, res: Response, next: NextFunction): Promise<void>{
         try{
             const { success, data, error } = createUserSchema.safeParse(req.body);
             if(!success){
@@ -28,20 +21,11 @@ export class UserController{
             res.status(201).json(user);
         }
         catch(error){
-            if(error instanceof UserDuplicatedEmailError)
-                res.status(409).json({message: error.message});
-            else if(error instanceof UserInvalidPropertyError)
-                res.status(400).json({message: error.message, property: error.propName});
-            else if(error instanceof UserInvalidPasswordError)
-                res.status(400).json({message: error.message});
-            else {
-                res.status(500).json( {message: 'Internal server error'});
-                console.error("Internal Server Error:", error); // Log the error for debugging
-            }
+            next(error);
         }
     }
     
-    public async updateProfile(req: Request, res: Response): Promise<void>{
+    public async updateProfile(req: Request, res: Response, next: NextFunction): Promise<void>{
         try{
             const idValidation = userIdSchema.safeParse(req.params.id);
             if(!idValidation.success){
@@ -70,18 +54,11 @@ export class UserController{
             res.status(200).json(userUpdated);
         }
         catch(error){
-            if(error instanceof UserNotFoundError)
-                res.status(404).json({message: error.message});
-            else if(error instanceof UserInvalidPropertyError)
-                res.status(400).json({message: error.message, property: error.propName});
-            else{
-                res.status(500).json( {message: 'Internal server error'});
-                console.error("Internal Server Error:", error); // Log the error for debugging
-            }
+            next(error);
         }
     }
 
-    public async updatePassword(req: Request, res: Response): Promise<void>{
+    public async updatePassword(req: Request, res: Response, next: NextFunction): Promise<void>{
             try{
                 const idValidation = userIdSchema.safeParse(req.params.id);
                 if(!idValidation.success){
@@ -113,22 +90,11 @@ export class UserController{
                 res.status(200).json({message: 'Password updated successfully'});
             }
             catch(error){
-                if(error instanceof UserNotFoundError)
-                    res.status(404).json({message: error.message});
-                else if(error instanceof UserInvalidPropertyError)
-                    res.status(400).json({message: error.message, property: error.propName});
-                else if(error instanceof UserInvalidPasswordError)
-                    res.status(400).json({message: error.message})
-                else if(error instanceof UserInvalidOldPasswordError)
-                    res.status(400).json({message: error.message})
-                else {
-                    res.status(500).json( {message: 'Internal server error'});
-                    console.error("Internal Server Error:", error); // Log the error for debugging
-                }
+               next(error);
             }
     }
 
-    public async findById(req: Request, res: Response): Promise<void>{
+    public async findById(req: Request, res: Response, next: NextFunction): Promise<void>{
         try {
             const idValidation = userIdSchema.safeParse(req.params.id);
             if(!idValidation.success){
@@ -151,16 +117,11 @@ export class UserController{
             res.status(200).json(user);
 
         } catch (error) {
-            if(error instanceof UserInvalidPropertyError)
-                res.status(400).json({message: error.message, property: error.propName});
-            else {
-                res.status(500).json( {message: 'Internal server error'});
-                console.error("Internal Server Error:", error); // Log the error for debugging
-            }
+           next(error);
         }
     }
 
-    public async findByEmail(req: Request, res: Response): Promise<void>{
+    public async findByEmail(req: Request, res: Response, next: NextFunction): Promise<void>{
         try {
             const emailValidation = userEmailSchema.safeParse(req.query.email);
             if(!emailValidation.success){
@@ -176,16 +137,11 @@ export class UserController{
             res.status(200).json(user);
 
         } catch (error) {
-            if(error instanceof UserInvalidPropertyError)
-                res.status(400).json({message: error.message, property: error.propName});
-            else {
-                res.status(500).json( {message: 'Internal server error'});
-                console.error("Internal Server Error:", error); // Log the error for debugging
-            }
+            next(error);
         }
     }
 
-    public async findAll(req: Request, res: Response): Promise<void>{
+    public async findAll(req: Request, res: Response, next: NextFunction): Promise<void>{
         try {
             const users: UserDTO[] = await this.userService.findAll();
             res.status(200).json(users);
@@ -194,7 +150,7 @@ export class UserController{
             console.error("Internal Server Error:", error); // Log the error for debugging
         }
     }
-    public async delete(req: Request, res: Response): Promise<void>{
+    public async delete(req: Request, res: Response, next: NextFunction): Promise<void>{
         try {
             
             const idValidation = userIdSchema.safeParse(req.params.id);
@@ -206,14 +162,7 @@ export class UserController{
             res.status(204).send();
 
         } catch (error) {
-            if(error instanceof UserNotFoundError)
-                res.status(404).json({message: error.message});
-            else if(error instanceof UserInvalidPropertyError)
-                res.status(400).json({message: error.message, property: error.propName});
-            else{
-                res.status(500).json( {message: 'Internal server error'});
-                console.error("Internal Server Error:", error); // Log the error for debugging
-            }
+            next(error);
         }
     }
 

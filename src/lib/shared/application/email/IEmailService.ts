@@ -1,4 +1,13 @@
 
+export type EmailRetStatus = {
+    message: string,
+    error: boolean,
+}
+export type EmailOptions = {
+    to: string,
+    subject: string,
+    body: string,
+}
 export interface IEmailService{
-    send(to: string, subject: string, message: string): Promise<void>;
+    send(opts: EmailOptions): Promise<EmailRetStatus>;
 }

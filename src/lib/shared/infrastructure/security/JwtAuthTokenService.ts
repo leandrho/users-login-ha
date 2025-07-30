@@ -1,5 +1,5 @@
 
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import { AuthTokenPayload, IAuthTokenService } from "../../application/security/IAuthTokenService";
 import envs from '../../../../config/envs';
 

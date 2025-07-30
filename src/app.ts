@@ -1,13 +1,10 @@
 
-import express, {Application, Request, Response, NextFunction} from "express";
+import express, { Application, Request, Response, NextFunction } from 'express';
 import { json } from "body-parser";
-import dotenv from "dotenv";
 
 import {userRouter, authRouter, authTokenService} from './dependencies'
 import { authenticateTokenMid } from './lib/shared/infrastructure/http/middlewares/authenticateTokenMid';
 import { errorHandler } from "./lib/shared/infrastructure/http/middlewares/errorHandlerMid";
-
-dotenv.config();
 
 const app: Application = express();
 

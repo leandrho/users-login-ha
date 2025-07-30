@@ -1,6 +1,6 @@
 
-import env from 'env-var'
-import dotenv from 'dotenv';
+import * as env from 'env-var'
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 

@@ -1,19 +1,39 @@
 services:
-  # Servicio de base de datos PostgreSQL
-  postgres-db2: # Nombre del servicio de la base de datos
-    image: postgres:17.2 # Versión específica de la imagen de PostgreSQL
-    restart: always # Siempre reinicia el contenedor si se detiene
-    environment: # Variables de entorno para la configuración de PostgreSQL
-      # Se recomienda encarecidamente usar variables de entorno desde el archivo .env
-      # para las credenciales sensibles, en lugar de hardcodearlas aquí.
-      POSTGRES_DB: ${DB_NAME} # Nombre de la base de datos, tomado de .env
-      POSTGRES_USER: ${DB_USER} # Usuario de la base de datos, tomado de .env
-      POSTGRES_PASSWORD: ${DB_PASSWORD} # Contraseña del usuario, tomado de .env
-    ports: # Mapeo de puertos: HOST_PORT:CONTAINER_PORT
-      - "5432:5432" # Expone el puerto 5432 del contenedor al puerto 5432 del host
-    volumes: # Persistencia de datos para que no se pierdan al reiniciar el contenedor
-      # Se usa un bind mount. Asegúrate de que la carpeta './postgres' esté en tu .gitignore.
-      - ./postgres:/var/lib/postgresql/data # Mapea la carpeta 'postgres' en el host al directorio de datos de PostgreSQL
-
-# No se definen volúmenes nombrados si solo se usan bind mounts.
-# Si prefieres un volumen nombrado (como 'db_data' antes), la sección 'volumes:' iría aquí.
+  postgres-db:
+    image: postgres:17.2
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD} 
+    ports: 
+      - "5432:5432" 
+    volumes: 
+      - ./postgres:/var/lib/postgresql/data 
+  backend: 
+    build: . 
+    restart: always 
+    environment: 
+      PORT: 3000
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres-db:${DB_PORT}/${DB_NAME}?schema=public
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET}
+      JWT_ACCESS_EXPIRATION_TIME: ${JWT_ACCESS_EXPIRATION_TIME}
+      JWT_REFRESH_EXPIRATION_TIME: ${JWT_REFRESH_EXPIRATION_TIME}
+      EMAIL_HOST: ${EMAIL_HOST}
+      EMAIL_PORT: ${EMAIL_PORT}
+      EMAIL_SECURE: ${EMAIL_SECURE}
+      EMAIL_SERVICE: ${EMAIL_SERVICE}
+      EMAIL_USER: ${EMAIL_USER}
+      EMAIL_PASS: ${EMAIL_PASS}
+      EMAIL_FROM_ADDRESS: ${EMAIL_FROM_ADDRESS}
+      RESET_PASSWORD_URL: ${RESET_PASSWORD_URL}
+      RESET_PASSWORD_TOKEN_EXPIRATION_MINUTES: ${RESET_PASSWORD_TOKEN_EXPIRATION_MINUTES}
+  ports:
+        - "3000:3000"
+  depends_on: # Asegura que la base de datos esté lista antes de iniciar la aplicación Node.js
+    - postgres-db
+  volumes:
+    #      - .:/app
+    # Excluye node_modules del bind mount para evitar conflictos y usar las dependencias instaladas en el contenedor.
+    - /app/node_modules

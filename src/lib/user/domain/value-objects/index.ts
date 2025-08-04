@@ -1,6 +1,7 @@
 
 export * from './UserId'
-export * from './UserFullname'
+export * from './UserFirstName'
+export * from './UserLastName'
 export * from './UserEmail'
 export * from './UserPassword'
 export * from  './UserRole'

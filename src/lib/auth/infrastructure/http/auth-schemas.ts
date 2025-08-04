@@ -7,7 +7,8 @@ export const authLoginSchema = z.object({
 });
 
 export const registerUserSchema = z.object({
-    fullName: z.string().min(3),
+    firstName: z.string().min(3),
+    lastName: z.string().min(3),
     email: z.email('Invalid email format'),
     password: z.string().min(8),
 });

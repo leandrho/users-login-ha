@@ -23,7 +23,7 @@ export class UserCreateUseCase {
         
         const hashedPassword: string = await this.passwordHasher.hash(createUser.password);
 
-        const newUser: User = User.createNew(createUser.fullName, createUser.email, hashedPassword, createUser.role);
+        const newUser: User = User.createNew(createUser.firstName, createUser.lastName, createUser.email, hashedPassword, createUser.role);
         
         await this.userRepository.save(newUser);
 
@@ -31,7 +31,8 @@ export class UserCreateUseCase {
 
         return { 
             id: userPrimitive.id, 
-            fullName: userPrimitive.fullName, 
+            firstName: userPrimitive.firstName, 
+            lastName: userPrimitive.lastName, 
             email: userPrimitive.email, 
             role: userPrimitive.role, 
             createdAt: userPrimitive.createdAt, 

@@ -32,7 +32,8 @@ export class UserQueryService{
     private static toUserDTO(user: User): UserDTO{
         return {
             id: user.id.value(),
-            fullName: user.fullName.value(),
+            firstName: user.firstName.value(),
+            lastName: user.lastName.value(),
             email: user.email.value(),
             role: user.role.value(),
             createdAt: user.createdAt.value(),

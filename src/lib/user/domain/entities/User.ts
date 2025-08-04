@@ -1,6 +1,6 @@
 import { UserLoginNotAllowedError } from "../errors/UserLoginNotAllowedError";
 import { UserStatusUpdateNotAllowedError } from "../errors/UserStatusUpdateNotAllowedError";
-import { UserId, UserEmail, UserFullname, UserPassword, UserRole, UserCreatedAt, UserLastLogin, UserStatus } from "../value-objects";
+import { UserId, UserEmail, UserFirstName, UserLastName, UserPassword, UserRole, UserCreatedAt, UserLastLogin, UserStatus } from "../value-objects";
 
 export class User{
     
@@ -8,7 +8,8 @@ export class User{
         public readonly id: UserId, 
         public readonly email: UserEmail,
         public readonly createdAt: UserCreatedAt,
-        public fullName: UserFullname,
+        public firstName: UserFirstName,
+        public lastName: UserLastName,
         public password: UserPassword,
         public role: UserRole,
         public status: UserStatus,
@@ -33,18 +34,23 @@ export class User{
         this.password = newPassword;
     }
 
-    public updateFullname(fullname: UserFullname): void{
-        this.fullName = fullname;
+    public updateFirstName(firstname: UserFirstName): void{
+        this.firstName = firstname;
+    }
+
+    public updateLastName(lastname: UserLastName): void{
+        this.lastName = lastname;
     }
 
     public updateRole(newRole: UserRole): void{
         this.role = newRole;
     }
 
-    public toPrimitives():{ id: string, fullName: string, email: string, password: string, role: string, createdAt: Date, status: string, lastLogin?: Date } {
+    public toPrimitives():{ id: string, firstName: string, lastName: string, email: string, password: string, role: string, createdAt: Date, status: string, lastLogin?: Date } {
         return {
             id: this.id.value(),
-            fullName: this.fullName.value(),
+            firstName: this.firstName.value(),
+            lastName: this.lastName.value(),
             email: this.email.value(),
             password: this.password.value(),
             role: this.role.value(),
@@ -54,12 +60,13 @@ export class User{
         }
     }
 
-    public static fromPrimitives( id: string, fullname: string, email: string, password: string, role: string, createdAt: Date, status: string, lastLogin?: Date ): User {
+    public static fromPrimitives( id: string, firstName: string, lastName: string, email: string, password: string, role: string, createdAt: Date, status: string, lastLogin?: Date ): User {
         return new User(
             new UserId(id),
             new UserEmail(email),
             new UserCreatedAt(createdAt),
-            new UserFullname(fullname),
+            new UserFirstName(firstName),
+            new UserLastName(lastName),
             new UserPassword(password),
             new UserRole(role),
             new UserStatus(status),
@@ -67,13 +74,14 @@ export class User{
         );
     }
 
-    public static createNew( fullname: string, email: string, password: string, role: string ): User{
+    public static createNew( firstName: string, lastName: string, email: string, password: string, role: string ): User{
 
         return new User(
             UserId.randomId(),
             new UserEmail(email),
             new UserCreatedAt(new Date()),
-            new UserFullname(fullname),
+            new UserFirstName(firstName),
+            new UserLastName(lastName),
             new UserPassword(password),
             new UserRole(role),
             new UserStatus('active'),

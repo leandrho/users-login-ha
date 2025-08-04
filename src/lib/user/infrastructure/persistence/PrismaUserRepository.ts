@@ -20,7 +20,8 @@ export class PrismaUserRepository implements IUserRepository{
                 id: userPrimitives.id,
             },
             update: {
-                fullName: userPrimitives.fullName,
+                firstName: userPrimitives.firstName,
+                lastName: userPrimitives.lastName,
                 password: userPrimitives.password,
                 role: userPrimitives.role,
                 status: userPrimitives.status,
@@ -72,7 +73,7 @@ export class PrismaUserRepository implements IUserRepository{
         });
         if(!userP) return null;
 
-        return User.fromPrimitives(userP.id, userP.fullName, userP.email, userP.password, userP.role, userP.createdAt, userP.status, userP.lastLogin ?? undefined )
+        return User.fromPrimitives(userP.id, userP.firstName, userP.lastName, userP.email, userP.password, userP.role, userP.createdAt, userP.status, userP.lastLogin ?? undefined )
     }
     public async findByEmail(email: UserEmail): Promise<User | null> {
         const userP: PrismaUser | null = await this.prisma.user.findUnique({
@@ -80,10 +81,10 @@ export class PrismaUserRepository implements IUserRepository{
         });
         if(!userP) return null;
 
-        return User.fromPrimitives(userP.id, userP.fullName, userP.email, userP.password, userP.role, userP.createdAt, userP.status, userP.lastLogin ?? undefined )
+        return User.fromPrimitives(userP.id, userP.firstName, userP.lastName, userP.email, userP.password, userP.role, userP.createdAt, userP.status, userP.lastLogin ?? undefined )
     }
     public async findAll(): Promise<User[]> {
         const userPs: PrismaUser[] = await this.prisma.user.findMany();
-        return userPs.map( userP => User.fromPrimitives(userP.id, userP.fullName, userP.email, userP.password, userP.role, userP.createdAt, userP.status, userP.lastLogin ?? undefined ) );
+        return userPs.map( userP => User.fromPrimitives(userP.id, userP.firstName, userP.lastName, userP.email, userP.password, userP.role, userP.createdAt, userP.status, userP.lastLogin ?? undefined ) );
     }
 }

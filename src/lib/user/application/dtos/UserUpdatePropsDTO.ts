@@ -1,2 +1,2 @@
 
-export type UserUpdatePropsDTO = Partial<{ fullName: string, password: string, role: string, status: string }>;
+export type UserUpdatePropsDTO = Partial<{ firstName: string, lastName: string, password: string, role: string, status: string }>;

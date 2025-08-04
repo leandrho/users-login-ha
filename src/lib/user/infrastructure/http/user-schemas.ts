@@ -1,14 +1,16 @@
 import { z } from 'zod';
 
 export const createUserSchema = z.object({
-    fullName: z.string().min(3),
+    firstName: z.string().min(3),
+    lastName: z.string().min(3),
     email: z.email(),
     password: z.string().min(8),
     role: z.enum(['admin', 'user', 'guest']),
 });
 
 export const updateProfileSchema = z.object({
-    fullName: z.string().min(3).optional(),
+    firstName: z.string().min(3).optional(),
+    lastName: z.string().min(3).optional(),
     password: z.string().min(8).optional(),
     role: z.enum(['admin', 'user', 'guest']).optional(),
     status: z.enum(['active', 'inactive', 'banned']).optional(),

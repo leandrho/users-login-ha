@@ -14,7 +14,7 @@ export class AuthRegisterUserUseCase {
         if(user)
             throw new UserDuplicatedEmailError(userInDTO.email, 'User with this email already exists');
         
-        const newUser: User = User.createNew(userInDTO.fullName, userInDTO.email, userInDTO.password, UserRoleEnum.USER);
+        const newUser: User = User.createNew(userInDTO.firstName, userInDTO.lastName, userInDTO.email, userInDTO.password, UserRoleEnum.USER);
         const hpas: string = await this.passwordHasher.hash(newUser.password.value());
         newUser.updatePassword(new UserPassword(hpas));
 

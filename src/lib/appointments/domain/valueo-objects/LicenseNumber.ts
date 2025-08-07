@@ -23,7 +23,7 @@ export class LicenseNumber extends StringValueObject{
             isValid: false,
             error: {
                 errorMsg: 'Invalid licence number',
-                propName: 'LicenceNumber',
+                propName: 'LicenseNumber',
                 value: value
             }
         }

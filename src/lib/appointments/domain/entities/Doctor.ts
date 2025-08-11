@@ -1,5 +1,5 @@
 import { UserId } from "src/lib/user/domain/value-objects";
-import { DoctorId, DoctorPhoneNumber, DoctorAvatarUrl, DoctorLicenseNumber, DoctorRating } from "../valueo-objects";
+import { DoctorId, PhoneNumber, DoctorAvatarUrl, DoctorLicenseNumber, DoctorRating } from "../valueo-objects";
 import { DoctorSpecialty, DoctorBio } from '../types';
 import { Address } from "src/lib/shared/domain/types";
 
@@ -11,7 +11,7 @@ export class Doctor {
         public readonly licenseNumbers: DoctorLicenseNumber[], 
         public readonly avatar?: DoctorAvatarUrl, 
         public readonly addresses?: Address[],
-        public readonly phoneNumbers?: DoctorPhoneNumber[],
+        public readonly phoneNumbers?: PhoneNumber[],
         public readonly bio?: DoctorBio,
         public readonly rating?: DoctorRating,
     ){}
@@ -36,7 +36,7 @@ export class Doctor {
         return this.clone({addresses});
     }
 
-    public updatePhoneNumbers(phoneNumbers: DoctorPhoneNumber[]):Doctor{
+    public updatePhoneNumbers(phoneNumbers: PhoneNumber[]):Doctor{
          return this.clone({phoneNumbers});
     }
 
@@ -44,7 +44,7 @@ export class Doctor {
          return this.clone({rating});
     }
 
-    public static createDoctor(userId: UserId, specialties: DoctorSpecialty[], licenseNumbers: DoctorLicenseNumber[], avatar?: DoctorAvatarUrl, addresses?: Address[], phoneNumbers?: DoctorPhoneNumber[], bio?: DoctorBio ):Doctor{
+    public static createDoctor(userId: UserId, specialties: DoctorSpecialty[], licenseNumbers: DoctorLicenseNumber[], avatar?: DoctorAvatarUrl, addresses?: Address[], phoneNumbers?: PhoneNumber[], bio?: DoctorBio ):Doctor{
         return new Doctor(
             DoctorId.randomId(),
             userId,

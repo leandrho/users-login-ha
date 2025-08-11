@@ -7,3 +7,11 @@ export type ValidationResult = {
         value: any
     }
 }
+export type Address ={
+    street: string,
+    city: string, 
+    state: string,
+    country: string,
+    zipCode: string,
+    extraInfo?: string
+}
